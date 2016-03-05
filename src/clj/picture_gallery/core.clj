@@ -27,7 +27,8 @@
 (mount/defstate repl-server
                 :start
                 (when-let [nrepl-port (env :nrepl-port)]
-                  (repl/start {:port nrepl-port}))
+                  (repl/start
+                   (-> {:port nrepl-port :bind "0.0.0.0"})))
                 :stop
                 (when repl-server
                   (repl/stop repl-server)))
@@ -56,4 +57,3 @@
       (System/exit 0))
     :else
     (start-app args)))
-  
