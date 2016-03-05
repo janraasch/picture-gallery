@@ -5,9 +5,21 @@
             [goog.events :as events]
             [goog.history.EventType :as HistoryEventType]
             [markdown.core :refer [md->html]]
+            [picture-gallery.components.common :as c]
+            [picture-gallery.components.registration :as reg]
             [picture-gallery.ajax :refer [load-interceptors!]]
             [ajax.core :refer [GET POST]])
   (:import goog.History))
+
+(defn user-menu []
+  (if-let [id (session/get :identity)]
+    [:ul.nav.navbar-nav.pull-xs-right
+     [:li.nav-item
+      [:a.dropdown-item.btn
+       (:on-click #(session/remove! :identity))
+       [:i.fa.fa-user] " " id " / sign out"]]]
+    [:ul.nav.navbar-nav.pull-xs-right
+     [:li.nav-item [reg/registration-button]]]))
 
 (defn nav-link [uri title page collapsed?]
   [:ul.nav.navbar-nav>a.navbar-brand
@@ -27,7 +39,8 @@
         [:a.navbar-brand {:href "#/"} "picture-gallery"]
         [:ul.nav.navbar-nav
          [nav-link "#/" "Home" :home collapsed?]
-         [nav-link "#/about" "About" :about collapsed?]]]])))
+         [nav-link "#/about" "About" :about collapsed?]
+         [user-menu]]]])))
 
 (defn about-page []
   [:div.container
@@ -38,7 +51,7 @@
 (defn home-page []
   [:div.container
    [:div.jumbotron
-    [:h1 "Welcome to picture-gallery"]
+    [:h1 "Welcome to picture-gallery, Jan-o-Bert"]
     [:p "Time to start building your site!"]
     [:p [:a.btn.btn-primary.btn-lg {:href "http://luminusweb.net"} "Learn more »"]]]
    [:div.row
@@ -50,12 +63,19 @@
        [:div {:dangerouslySetInnerHTML
               {:__html (md->html docs)}}]]])])
 
+(defn modal []
+  (when-let [session-modal (session/get :modal)]
+    [session-modal]))
+
 (def pages
   {:home #'home-page
    :about #'about-page})
 
 (defn page []
-  [(pages (session/get :page))])
+  [:div
+   ;;registration modal test
+   [modal]
+   [(pages (session/get :page))]])
 
 ;; -------------------------
 ;; Routes
@@ -89,6 +109,5 @@
 
 (defn init! []
   (load-interceptors!)
-  (fetch-docs!)
   (hook-browser-navigation!)
   (mount-components))

@@ -61,10 +61,10 @@
       :output-dir "target/cljsbuild/public/js/out"
       :externs ["react/externs/react.js"]
       :pretty-print true}}}}
-  
+
   :profiles
   {:uberjar {:omit-source true
-             
+
               :prep-tasks ["compile" ["cljsbuild" "once"]]
               :cljsbuild
               {:builds
@@ -74,8 +74,8 @@
                  {:optimizations :advanced
                   :pretty-print false
                   :closure-warnings
-                  {:externs-validation :off :non-standard-jsdoc :off}}}}} 
-             
+                  {:externs-validation :off :non-standard-jsdoc :off}}}}}
+
              :aot :all
              :uberjar-name "picture-gallery.jar"
              :source-paths ["env/prod/clj"]
@@ -106,8 +106,8 @@
                       {:output-to "target/test.js"
                        :main "picture-gallery.doo-runner"
                        :optimizations :whitespace
-                       :pretty-print true}}}} 
-                  
+                       :pretty-print true}}}}
+
                   :figwheel
                   {:http-server-root "public"
                    :server-port 3449
