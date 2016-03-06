@@ -13,3 +13,9 @@ WHERE id = :id
 -- :doc delete a user given the id
 DELETE FROM users
 WHERE id = :id
+
+-- :name save-file! :! :n
+-- :doc create a new file record
+INSERT INTO files
+(owner, type, name, data)
+VALUES (:owner, :type, :name, :data)
