@@ -1,5 +1,7 @@
 sudo: false
 language: clojure
+jdk:
+- oraclejdk8
 env:
   global:
   - DATABASE_URL='jdbc:postgresql://localhost/travis_ci_test?user=postgres'
