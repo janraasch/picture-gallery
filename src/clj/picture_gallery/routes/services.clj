@@ -24,4 +24,15 @@
     :return      Result
     :body        [user UserRegistration]
     :summary     "register a new user"
-    (auth/register! req user)))
+    (auth/register! req user))
+
+  (POST "/login" req
+    :return         Result
+    :header-params  [authorization :- String]
+    :summary        "login the user and create a session"
+    (auth/login! req authorization))
+
+  (POST "/logout" []
+    :return         Result
+    :summary        "remove user session"
+    (auth/logout!)))
