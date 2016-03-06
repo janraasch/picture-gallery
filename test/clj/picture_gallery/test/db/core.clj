@@ -21,15 +21,12 @@
     (is (= 1 (db/create-user!
                t-conn
                {:id         "1"
-                :first_name "Sam"
-                :last_name  "Smith"
-                :email      "sam.smith@example.com"
                 :pass       "pass"})))
     (is (= {:id         "1"
-            :first_name "Sam"
-            :last_name  "Smith"
-            :email      "sam.smith@example.com"
             :pass       "pass"
+            :first_name nil
+            :last_name  nil
+            :email      nil
             :admin      nil
             :last_login nil
             :is_active  nil}
