@@ -1,0 +1,17 @@
+sudo: false
+language: clojure
+env:
+  global:
+  - DATABASE_URL='jdbc:postgresql://localhost/travis_ci_test?user=postgres'
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  api_key:
+    secure: L5bWIs6NjJ075zaUcpfQAFOOLfjs32wOl9j7NdkB9PnZyY7ECWxluMWShBDyNh2sWXxB8MhpxWNmol3bIKD4LI0G3iPafMw69cpSeALnOL+jkIXpmHW80v0wiMmksq6UBJRfmX4QLqiLzpZ+CqEx7t+C16ZFu+kt00vpChBk37yp9L5dPcI6efDlds94Da5GNTYyp9Rz4oet2uB7bQExlOlw39ZEKDHMaYJzIgbBw4eMbrfnEhX7vJlaavqcuzIvFat/4FMgSGwXkOEcxO3ErUg2OTZZOuaVazka13P/okg0KTAciCYzoCsTPmvD8+B8epeN4Ppaq/wHQ8G6WOpL6MIXpByohzBRFXaGHQj9QJDxNGUgFX1ZRblPFOfTh6ngtU/68uMjJV0uXfZGIRcBGqXWmWlnn8OIqhOcnB/MkC9M7GX/Iq629IlggEXDO6fLe+wS8p7IrKuzMDFaOe/gfnmZrMH/unFCz7Zl1CCuSN5UCDXg3Qc6KxkxOZmo32J4frjUNvqehWfJrrmRh7QrIYfD8cnbpqLP7656dfBpKALGajM6iAYgRedFpXPcaHx7eexEIr+mNAB5USJdqmQBwK4pe6TlqMLPovcUg1FbSGJR/MYroe1su+2lXorUKy29RgLxpwKs1t+N/Nn81Wkg5WYMbgushHwV45XsUxm3JsU=
+  app: verpickled
+  on:
+    repo: janraasch/picture-gallery
