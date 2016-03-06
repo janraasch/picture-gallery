@@ -50,22 +50,14 @@
   [:div.container
    [:div.row
     [:div.col-md-12
-     "this is the story of picture-gallery... work in progress"]]])
+     "this is the story of work in progress..."]]])
 
 (defn home-page []
   [:div.container
    [:div.jumbotron
-    [:h1 "Welcome to picture-gallery, Jan-o-Bert"]
-    [:p "Time to start building your site!"]
-    [:p [:a.btn.btn-primary.btn-lg {:href "http://luminusweb.net"} "Learn more »"]]]
-   [:div.row
-    [:div.col-md-12
-     [:h2 "Welcome to ClojureScript"]]]
-   (when-let [docs (session/get :docs)]
-     [:div.row
-      [:div.col-md-12
-       [:div {:dangerouslySetInnerHTML
-              {:__html (md->html docs)}}]]])])
+    [:h1 "Welcome to Jan-O-Bert's picture gallery"]
+    [:p "Time to start uploading some pictures"]
+    [:p [:a.btn.btn-primary.btn-lg {:href "http://luminusweb.net"} "Learn more »"]]]])
 
 (defn modal []
   (when-let [session-modal (session/get :modal)]
