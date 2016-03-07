@@ -14,19 +14,38 @@
             [ajax.core :as ajax])
   (:import goog.History))
 
+(defn account-actions [id]
+  (let [expanded? (r/atom false)]
+    (fn []
+      [:div.dropdown
+       {:class    (when @expanded? "open")
+        :on-click #(swap! expanded? not)}
+       [:button.btn.btn-secondary.dropdown-toggle
+        {:type :button}
+        [:span.glyphicon.glyphicon-user] " " id [:span.caret]]
+       [:div.dropdown-menu.user-actions
+        [:a.dropdown-item.btn
+          {:on-click
+             #(session/put!
+               :modal reg/delete-account-modal)}
+          "Delete Account"]
+        [:a.dropdown-item.btn
+          {:on-click
+             #(ajax/POST
+               "/logout"
+               {:handler (fn [] (session/remove! :identity))})}
+          "Sign Out"]]])))
+
 (defn user-menu []
   (if-let [id (session/get :identity)]
     [:ul.nav.navbar-nav.pull-xs-right
-     [:li.nav-item [u/upload-button]]
-     [:li.nav-item
-      [:a.dropdown-item.btn
-       {:on-click #(ajax/POST
-                      "/logout"
-                      {:handler (fn [] (session/remove! :identity))})}
-       [:i.fa.fa-user] " " id " / sign out"]]]
+      [:li.nav-item
+       [u/upload-button]]
+      [:li.nav-item
+       [account-actions id]]]
     [:ul.nav.navbar-nav.pull-xs-right
-     [:li.nav-item [l/login-button]]
-     [:li.nav-item [reg/registration-button]]]))
+      [:li.nav-item [l/login-button]]
+      [:li.nav-item [reg/registration-button]]]))
 
 (defn nav-link [uri title page collapsed?]
   [:ul.nav.navbar-nav>a.navbar-brand

@@ -75,3 +75,8 @@
   (sql-value [value] (to-pg-json value))
   IPersistentVector
   (sql-value [value] (to-pg-json value)))
+
+(defn delete-account! [id]
+  (conman/with-transaction [*db*]
+    (delete-user! {:id id})
+    (delete-user-images! {:owner id})))

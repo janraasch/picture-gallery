@@ -44,7 +44,12 @@ SELECT s.*
  WHERE s.rk = 1
  
 -- :name delete-file! :! :1
--- deletes the file with the given name and owner
+-- :doc deletes the file with the given name and owner
 DELETE FROM files
 WHERE name = :name
 AND owner = :owner
+
+-- :name delete-user-images! :! :n
+-- :doc deletes all the images for the specified user
+DELETE FROM files
+WHERE owner = :owner

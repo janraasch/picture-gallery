@@ -5,6 +5,27 @@
             [picture-gallery.components.common :as c]
             [picture-gallery.validation :refer [registration-errors]]))
 
+(defn delete-account! []
+  (ajax/POST "/delete-account"
+             {:handler #(do
+                          (session/remove! :identity)
+                          (session/put! :page :home))}))
+
+(defn delete-account-modal []
+  (fn []
+    [c/modal
+     [:h2.alert.alert-danger "Delete Account!?"]
+     [:P "Are you sure you wish to delete the account and associated gallery?"]
+     [:div
+      [:button.btn.btn-primary
+       {:on-click (fn []
+                    (delete-account!)
+                    (session/remove! :modal))}
+       "Delete"]
+      [:button.btn.btn-danger
+       {:on-click (fn [] (session/remove! :modal))}
+       "Cancel"]]]))
+
 (defn register! [fields errors]
   (reset! errors (registration-errors @fields))
   (when-not @errors

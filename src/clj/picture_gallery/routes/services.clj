@@ -78,4 +78,7 @@
         :body-params [image-name :- String thumb-name :- String]
         :summary "delete the specified file from the database"
         :return Result
-        (gallery/delete-image! (:identity req) thumb-name image-name)))
+        (gallery/delete-image! (:identity req) thumb-name image-name))
+
+  (POST "/delete-account" req
+        (auth/delete-account! (:identity req))))
