@@ -72,4 +72,10 @@
         :middleware [wrap-multipart-params]
         :summary "handles image upload"
         :return Result
-        (upload/save-image! (:identity req) file)))
+        (upload/save-image! (:identity req) file))
+
+  (POST "/delete-image" req
+        :body-params [image-name :- String thumb-name :- String]
+        :summary "delete the specified file from the database"
+        :return Result
+        (gallery/delete-image! (:identity req) thumb-name image-name)))

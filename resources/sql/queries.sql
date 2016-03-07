@@ -42,3 +42,9 @@ WITH summary AS (
 SELECT s.*
   FROM summary s
  WHERE s.rk = 1
+ 
+-- :name delete-file! :! :1
+-- deletes the file with the given name and owner
+DELETE FROM files
+WHERE name = :name
+AND owner = :owner
