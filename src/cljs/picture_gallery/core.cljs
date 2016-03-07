@@ -55,12 +55,31 @@
     [:div.col-md-12
      "this is the story of work in progress..."]]])
 
+(defn galleries [gallery-links]
+ [:div.text-xs-center
+  (for [row (partition-all 3 gallery-links)]
+    ^{:key row}
+    [:div.row
+     (for [{:keys [owner name]} row]
+       ^{:key (str owner name)}
+       [:div.col-sm-4
+        [:h3 (str owner "'s gallery")]
+        [:a {:href (str "#/gallery/" owner) :title (str owner "'s gallery")}
+         [:img {:src (str js/context "/gallery/" owner "/" name)}]]])])])
+
+(defn list-galleries! []
+ (ajax/GET "/list-galleries"
+           {:handler #(session/put! :gallery-links %)}))
+
 (defn home-page []
-  [:div.container
-   [:div.jumbotron
-    [:h1 "Welcome to Jan-O-Bert's picture gallery"]
-    [:p "Time to start uploading some pictures"]
-    [:p [:a.btn.btn-primary.btn-lg {:href "http://luminusweb.net"} "Learn more »"]]]])
+ (list-galleries!)
+ (fn []
+   [:div.container
+    [:div.row
+     [:div.col-md-12>h2 "Available Galleries"]]
+    (when-let [gallery-links (session/get :gallery-links)]
+      [:div.row>div.col-md-12
+       [galleries gallery-links]])]))
 
 (defn modal []
   (when-let [session-modal (session/get :modal)]

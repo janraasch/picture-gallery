@@ -30,3 +30,15 @@ SELECT owner, name FROM files
 -- :doc retrieve image data by name
 SELECT type, data FROM files
 WHERE name = :name
+
+-- :name select-gallery-previews :? :*
+-- :doc selects a thumbnail for each user gallery
+WITH summary AS (
+    SELECT f.owner,
+           f.name,
+           ROW_NUMBER() OVER(PARTITION BY f.owner
+                                 ORDER BY f.name DESC) AS rk
+      FROM files f WHERE name like 'thumb\_%')
+SELECT s.*
+  FROM summary s
+ WHERE s.rk = 1
